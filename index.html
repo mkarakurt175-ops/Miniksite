@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minik Merve ve Minik Doğukan</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    text-align: center;
+}
+
+.hero {
+    position: relative;
+    height: 100vh;
+    background: url("giris.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero h1 {
+    color: white;
+    font-size: 32px;
+    background: rgba(0,0,0,0.5);
+    padding: 15px 25px;
+    border-radius: 10px;
+}
+
+.section {
+    padding: 50px 20px;
+}
+
+button {
+    background-color: red;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.gallery img {
+    width: 90%;
+    max-width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <h1>Minik Merve ve Minik Doğukan</h1>
+</div>
+
+<div class="section">
+    <h2>Şifreyi Gir 💌</h2>
+    <input type="password" id="password" placeholder="Şifre">
+    <br><br>
+    <button onclick="checkPassword()">Butona Tıkla ❤️</button>
+</div>
+
+<div id="secret" class="section hidden">
+    <h2>Sevgilim, Canım Bir Tanem...</h2>
+    <p style="max-width:600px;margin:auto;line-height:1.6;">
+Sevgilim, canım bir tanem seni çok seviyorum iyi ki varsın ömrüm benim sen benim her şeyimsin. 
+Seni çok kızdırıyorum ama emin ol sana çok aşığım. Tartışmalar ilişkinin tadı tuzu derler ama bizimki 
+biraz fazla tuzlu skdmkskd olsun zaten bende tansiyon düşüklüğü var bana iyi geliyor 😌  
+
+Sen benim sadece erkek arkadaşım değil aynı zamanda yapay zekamsın, arama motorumsun, 
+bilgisayar tamircimsin, antivirüs programımsın, apple müşteri temsilcimsin…  
+Kısacası sen benim tek başına koskoca dünyamsın.  
+
+Hayatımda olduğun için çok şanslıyım.  
+Rabbim sana sağlıklı, uzun, mutlu, bereketli, benli bir hayat nasip etsin. Amin.  
+
+Seni inanılmaz çok seviyorum.  
+
+Sevdiceğin küçük hanım 🤍
+    </p>
+
+    <div class="gallery">
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+        <img src="foto4.jpg">
+        <img src="foto5.jpg">
+        <img src="foto6.jpg">
+        <img src="foto7.jpg">
+    </div>
+</div>
+
+<script>
+function checkPassword() {
+    var pass = document.getElementById("password").value;
+    if(pass === "130923") {
+        document.getElementById("secret").classList.remove("hidden");
+        window.scrollTo({
+            top: document.getElementById("secret").offsetTop,
+            behavior: "smooth"
+        });
+    } else {
+        alert("Şifre yanlış 😏");
+    }
+}
+</script>
+
+</body>
+</html>
