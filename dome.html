@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DoMe</title>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(#87CEEB, #e0f7ff);
+    font-family: Arial, sans-serif;
+}
+canvas {
+    display: block;
+}
+#message {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    color: #ff2e88;
+    display: none;
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<div id="message">
+Gerçek hayatta olduğu gibi oyunda da tüm engelleri aşarak beni buldum ve kavuştuk. Seni çok seviyorum.
+</div>
+
+<canvas id="game"></canvas>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let player = { x: 50, y: canvas.height - 150, w: 60, h: 100, dy: 0, jump: false };
+let gravity = 0.8;
+
+let girl = { x: canvas.width - 150, y: canvas.height - 150, w: 60, h: 100 };
+
+let obstacles = [
+    { x: 400, y: canvas.height - 120, w: 40, h: 40 },
+    { x: 700, y: canvas.height - 120, w: 40, h: 40 }
+];
+
+let hearts = [
+    { x: 300, y: canvas.height - 200, r: 15, collected: false },
+    { x: 600, y: canvas.height - 250, r: 15, collected: false },
+    { x: 900, y: canvas.height - 200, r: 15, collected: false }
+];
+
+let heartCount = 0;
+
+function drawGround(){
+    ctx.fillStyle = "#4CAF50";
+    ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+}
+
+function drawPlayer(){
+    // pixel body
+    ctx.fillStyle = "#000";
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+    // face image
+    ctx.drawImage(faceBoy, player.x, player.y - 60, 60, 60);
+}
+
+function drawGirl(){
+    ctx.fillStyle = "#ff69b4";
+    ctx.fillRect(girl.x, girl.y, girl.w, girl.h);
+    ctx.drawImage(faceGirl, girl.x, girl.y - 60, 60, 60);
+}
+
+function drawObstacles(){
+    ctx.fillStyle = "#8B4513";
+    obstacles.forEach(o=>{
+        ctx.fillRect(o.x, o.y, o.w, o.h);
+    });
+}
+
+function drawHearts(){
+    hearts.forEach(h=>{
+        if(!h.collected){
+            ctx.fillStyle = "red";
+            ctx.beginPath();
+            ctx.arc(h.x, h.y, h.r, 0, Math.PI*2);
+            ctx.fill();
+        }
+    });
+}
+
+function update(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawGround();
+    drawPlayer();
+    drawGirl();
+    drawObstacles();
+    drawHearts();
+
+    // gravity
+    player.y += player.dy;
+    player.dy += gravity;
+    if(player.y > canvas.height - 150){
+        player.y = canvas.height - 150;
+        player.jump = false;
+    }
+
+    // heart collision
+    hearts.forEach(h=>{
+        if(!h.collected &&
+           player.x < h.x+20 &&
+           player.x+player.w > h.x-20 &&
+           player.y < h.y+20 &&
+           player.y+player.h > h.y-20){
+            h.collected = true;
+            heartCount++;
+        }
+    });
+
+    // finish
+    if(player.x + player.w > girl.x){
+        document.getElementById("message").style.display = "block";
+    }
+
+    requestAnimationFrame(update);
+}
+
+document.addEventListener("keydown", e=>{
+    if(e.key==="ArrowRight") player.x += 20;
+    if(e.key==="ArrowLeft") player.x -= 20;
+    if(e.key===" " && !player.jump){
+        player.dy = -15;
+        player.jump = true;
+    }
+});
+
+const faceBoy = new Image();
+const faceGirl = new Image();
+
+faceBoy.src = "BOY.jpg";   // erkek arkadaşının fotoğrafını bu isimle koy
+faceGirl.src = "GIRL.jpg"; // senin fotoğrafını bu isimle koy
+
+update();
+</script>
+
+</body>
+</html>
